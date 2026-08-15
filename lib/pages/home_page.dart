@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:quizappg16/quizbrain.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Quizbrain quizbrain = Quizbrain();
+
+  void checkAnswer(bool userAnwer) {
+    bool correctAnswer = quizbrain.getQuestionAnswer();
+    if (userAnwer == correctAnswer) {
+      print("verdadderoo");
+    } else {
+      print("La respuesta esta mal");
+    }
+
+    quizbrain.nextQuestion();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +38,7 @@ class HomePage extends StatelessWidget {
               flex: 5,
               child: Center(
                 child: Text(
-                  "¿Has almorzado hoy?",
+                  quizbrain.getQuestionText(),
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
@@ -36,7 +54,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.greenAccent,
                   minWidth: double.infinity,
                   child: Text("Verdadero"),
-                  onPressed: () {},
+                  onPressed: () {
+                    checkAnswer(true);
+                  },
                 ),
               ),
             ),
@@ -51,7 +71,9 @@ class HomePage extends StatelessWidget {
                   color: Colors.redAccent,
                   minWidth: double.infinity,
                   child: Text("Falso"),
-                  onPressed: () {},
+                  onPressed: () {
+                    checkAnswer(false);
+                  },
                 ),
               ),
             ),
